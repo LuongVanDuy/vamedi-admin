@@ -12,7 +12,7 @@ import deleteIcon from "@/assets/deleteRed.svg";
 import search from "@/assets/Search.svg";
 import addIcon from "@/assets/plus.svg";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getUserList, deleteUser, enableUser, disableUser } from "@/core/api/user.service";
+import { getUserList, deleteUser, enableUser, disableUser } from "@/core/api/user.api";
 
 const User = () => {
   const router = useRouter();

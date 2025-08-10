@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Upload, UploadFile, message } from "antd";
 import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import type { RcFile, UploadRequestOption } from "rc-upload/lib/interface";
-import { uploadFile } from "@/core/api/upload.service";
+import { uploadFile } from "@/core/api/upload.api";
 import { buildImageUrl } from "@/core/helper/utility";
 
 export type CustomUploadProps = {

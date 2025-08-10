@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { getToken } from "@/core/helper/storage";
 import { profileState } from "@/core/recoil/state";
-import { getProfile } from "@/core/api/auth.service";
+import { getProfile } from "@/core/api/auth.api";
 
 const excludePath = ["/auth/login"];
 

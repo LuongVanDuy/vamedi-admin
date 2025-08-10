@@ -11,7 +11,7 @@ import { CustomInput } from "@/components/Form/CustomInput";
 import InputError from "@/components/Form/InputError";
 import CustomUpload from "@/components/Form/CustomUpload";
 import { useMutation } from "@tanstack/react-query";
-import { createUser } from "@/core/api/user.service";
+import { createUser } from "@/core/api/user.api";
 
 const schema = yup.object({
   avatar: yup.string().nullable().optional(),
