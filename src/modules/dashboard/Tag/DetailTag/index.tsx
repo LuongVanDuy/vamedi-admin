@@ -18,7 +18,9 @@ import { getTagsById, updateTags } from "@/core/api/tag.service";
 const Detail = ({ id }: { id: any }) => {
   const router = useRouter();
 
-  const { data, isLoading, refetch } = useQuery(["DETAIL_TAG"], () => getTagsById(id), {
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["DETAIL_TAG", id],
+    queryFn: () => getTagsById(id),
     enabled: !!id,
   });
 
@@ -62,18 +64,19 @@ const Detail = ({ id }: { id: any }) => {
     }
   }, [title, setValue]);
 
-  const { mutate: updateMutation, isLoading: isUpdating } = useMutation((data: any) => updateTags(id, data), {
+  const { mutate: updateMutation, isPending: isUpdating } = useMutation({
+    mutationFn: (payload: any) => updateTags(id, payload),
     onSuccess: () => {
       message.success("Success!");
       refetch();
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message);
     },
   });
 
-  const onSubmit = (data: any) => {
-    updateMutation(data);
+  const onSubmit = (formData: any) => {
+    updateMutation(formData);
   };
 
   return (

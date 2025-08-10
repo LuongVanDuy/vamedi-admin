@@ -13,12 +13,17 @@ const excludePath = ["/auth/login"];
 export function InitGlobalData() {
   const pathname = usePathname();
   const [, setProfileState] = useRecoilState(profileState);
+  const token = getToken();
+  const enabled = !!token && !excludePath.includes(pathname);
+
   const {
     data: profile,
     isLoading,
     refetch,
-  } = useQuery(["PROFILE", getToken()], () => getProfile(), {
-    enabled: !!getToken() && !excludePath.includes(pathname),
+  } = useQuery({
+    queryKey: ["PROFILE", token],
+    queryFn: () => getProfile(),
+    enabled,
   });
 
   useEffect(() => {

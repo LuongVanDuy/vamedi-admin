@@ -1,7 +1,5 @@
 import dayjs from "dayjs";
 import { format } from "date-fns";
-// import Avatars from "@/assets/Avatar.svg";
-// import { setToken } from "@/helpers/storage";
 
 export function formatCurrency(amount: number): string {
   const formattedAmount = new Intl.NumberFormat("en-US", {
@@ -48,68 +46,41 @@ export function formatDateToShort(dateString: string): string {
   return `${day} ${month} ${year}`;
 }
 
-// export function formatCurrencyWithoutSymbol(amount: number): string {
-//   const formattedAmount = new Intl.NumberFormat("vi-VN", {
-//     style: "decimal",
-//     minimumFractionDigits: 0,
-//   }).format(amount);
-
-//   return formattedAmount.replace(/\./g, ",");
-// }
-
-// export function maskPhoneNumber(phoneNumber: string | any) {
-//   const maskedNumber = phoneNumber.substring(0, 2) + "*****" + phoneNumber.substring(7);
-//   return maskedNumber;
-// }
-
-// export const formatTime = (timestamp: string | any) => {
-//   const adjustedDate = getAdjustedDate(timestamp);
-//   return format(adjustedDate, "dd/MM/yyyy'  'HH:mm");
-// };
-
 export const formatDate = (timestamp: string | any) => {
   const date = new Date(timestamp);
   return format(date, "dd/MM/yyyy");
 };
-
-// export const formatTimeWithSeconds = (timestamp: string | any) => {
-//   const adjustedDate = getAdjustedDate(timestamp);
-//   return format(adjustedDate, "dd/MM/yyyy' - 'HH:mm:ss");
-// };
 
 export function formatTime(timestamp: string | any) {
   const date = new Date(timestamp);
   return format(date, "dd/MM/yyyy' - 'HH:mm");
 }
 
-// export const getValidImageUrl = (imageUrl: string | null | undefined): string => {
-//   const defaultImage = Avatars;
+export function slugify(input: string): string {
+  if (!input) return "";
+  return input
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "d")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-");
+}
 
-//   if (!imageUrl || typeof imageUrl !== "string" || imageUrl.trim() === "") {
-//     return defaultImage;
-//   }
+export function buildImageUrl(src?: string | null, baseOverride?: string): string {
+  if (!src) return "";
+  if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("/")) return src;
 
-//   try {
-//     const url = new URL(imageUrl);
-//     if (url.protocol === "http:" || url.protocol === "https:") {
-//       return imageUrl;
-//     }
-//   } catch (error) {
-//     if (imageUrl.startsWith("/")) {
-//       return imageUrl;
-//     }
-//   }
+  const base =
+    baseOverride ||
+    process.env.NEXT_PUBLIC_FILE_BASE_URL ||
+    process.env.NEXT_PUBLIC_IMAGE_BASE_URL ||
+    process.env.NEXT_PUBLIC_BASE_API_URL ||
+    "";
 
-//   return defaultImage;
-// };
-
-// export const setTokenWithExpiry = (token: string, expiryDuration: number) => {
-//   const expiry = Date.now() + expiryDuration * 1000;
-//   setToken(token);
-//   localStorage.setItem("tokenExpiry", expiry.toString());
-// };
-
-// export const getTokenExpiry = () => {
-//   const expiry = localStorage.getItem("tokenExpiry");
-//   return expiry ? parseInt(expiry, 10) : null;
-// };
+  const normalizedBase = base ? base.replace(/\/$/, "") : "";
+  return normalizedBase ? `${normalizedBase}/${src}` : `/${src}`;
+}

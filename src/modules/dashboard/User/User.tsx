@@ -29,9 +29,13 @@ const User = () => {
     sortDesc: null,
   });
 
-  const { data, isLoading, refetch } = useQuery(["USER", formFilter], () => getUserList(formFilter));
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["USER", formFilter],
+    queryFn: () => getUserList(formFilter),
+  });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation(() => deleteUser(item?.id), {
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+    mutationFn: (id: string) => deleteUser(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
@@ -39,12 +43,13 @@ const User = () => {
       setOpen(false);
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message);
     },
   });
 
   const onDelete = () => {
-    deleteMutation();
+    if (!item?.id) return message.error("No user selected!");
+    deleteMutation(item.id);
   };
 
   const handleDelete = (record: any) => {
@@ -52,29 +57,32 @@ const User = () => {
     setOpen(true);
   };
 
-  const { mutate: enableMutation } = useMutation((id: any) => enableUser(id), {
+  const { mutate: enableMutation, isPending: isEnabling } = useMutation({
+    mutationFn: (id: string) => enableUser(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
       refetch();
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message);
     },
   });
 
-  const { mutate: disableMutation } = useMutation((id: any) => disableUser(id), {
+  const { mutate: disableMutation, isPending: isDisabling } = useMutation({
+    mutationFn: (id: string) => disableUser(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
       refetch();
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message);
     },
   });
 
-  const handleSwitchChange = (id: any, isActive: boolean) => {
+  const handleSwitchChange = (id: string, isActive: boolean) => {
+    if (!id) return message.error("No user selected!");
     if (isActive) {
       enableMutation(id);
     } else {
@@ -156,10 +164,7 @@ const User = () => {
 
   return (
     <>
-      <div
-        style={{ minHeight: "calc(100vh - 24px)" }}
-        className="w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6"
-      >
+      <div className="min-h-[calc(100vh-24px)] w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6">
         <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0">
           <h1 className="text-[#212529] font-medium text-[24px]">User Management</h1>
         </div>

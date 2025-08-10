@@ -25,9 +25,13 @@ const Tag = () => {
     // sortDesc: true,
   });
 
-  const { data, isLoading, refetch } = useQuery(["USER", formFilter], () => getTagsList(formFilter));
+  const { data, isPending, refetch } = useQuery({
+    queryKey: ["USER", formFilter],
+    queryFn: () => getTagsList(formFilter),
+  });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation(() => deleteTags(item?.id), {
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+    mutationFn: (id: any) => deleteTags(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
@@ -40,7 +44,7 @@ const Tag = () => {
   });
 
   const onDelete = () => {
-    deleteMutation();
+    deleteMutation(item?.id);
   };
 
   const handleDelete = (record: any) => {
@@ -81,10 +85,7 @@ const Tag = () => {
 
   return (
     <>
-      <div
-        style={{ minHeight: "calc(100vh - 24px)" }}
-        className="w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6"
-      >
+      <div className="min-h-[calc(100vh-24px)]  w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6">
         <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0 flex justify-between">
           <h1 className="text-[#212529] font-medium text-[24px]">Tag Management</h1>
 
@@ -96,7 +97,7 @@ const Tag = () => {
         <div className="card">
           <Table
             columns={columns}
-            loading={isLoading}
+            loading={isPending}
             dataSource={data?.data?.list}
             rowKey="id"
             pagination={false}

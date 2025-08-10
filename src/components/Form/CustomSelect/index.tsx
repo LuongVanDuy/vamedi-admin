@@ -78,8 +78,8 @@ export function CustomSelect({
     >
       {prefixIcon && <div className="flex items-center absolute top-[30%] left-[2%] z-[1]">{prefixIcon}</div>}
       <Select
-        open={open} // Thêm thuộc tính open
-        onDropdownVisibleChange={setOpen} // Cập nhật trạng thái mở
+        open={open}
+        onDropdownVisibleChange={setOpen}
         showSearch={!!showSearch}
         filterOption={filterSort}
         onChange={onChange}

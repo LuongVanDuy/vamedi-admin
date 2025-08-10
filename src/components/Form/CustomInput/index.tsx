@@ -115,24 +115,6 @@ export const CustomInput = forwardRef<
 
     return (
       <InputStyled className={`${wrapClassName} flex items-center gap-x-2`}>
-        {/* {hasMinus && (
-          <div className="flex items-center">
-            <Image
-              src={MinusIcon}
-              alt=""
-              className="w-4 cursor-pointer"
-              onClick={() => {
-                if (onMinus) {
-                  onMinus(value - 1 >= 0 ? value - 1 : value);
-                  if (ref && typeof ref === "object" && ref.current) {
-                    ref.current.focus();
-                  }
-                }
-              }}
-            />
-          </div>
-        )} */}
-
         <Input
           className={cx("text-[#666666]  leading-normal focus:shadow-none focus-within:shadow-none", className, {
             "border-b border-t-0 border-l-0 border-r-0 border-[#B2B2B2] rounded-none ": !bordered,
@@ -148,29 +130,11 @@ export const CustomInput = forwardRef<
           value={forceValue ?? label}
           {...rest}
         />
-        {/* {hasPlus && (
-          <div className="flex items-center">
-            <Image
-              src={PlusIcon}
-              alt=""
-              className="w-4 cursor-pointer"
-              onClick={() => {
-                if (onPlus) {
-                  onPlus(value + 1);
-                  if (ref && typeof ref === "object" && ref.current) {
-                    ref.current.focus();
-                  }
-                }
-              }}
-            />
-          </div>
-        )} */}
       </InputStyled>
     );
   },
 );
 
-// Ensure that forwardRef name is set for debugging
 CustomInput.displayName = "CustomInput";
 
 const { TextArea } = Input;
@@ -180,7 +144,7 @@ export function CustomTextarea(props: TextAreaProps & { rows?: number }) {
 
   return (
     <TextArea
-      className={cx("rounded-lg px-4 py-2 border-[#DEE2E6] placeholder-[#ADB5BD]", className)}
+      className={cx("rounded-md px-4 py-2 border-[#DEE2E6] placeholder-[#ADB5BD]", className)}
       rows={rows}
       {...rest}
     />

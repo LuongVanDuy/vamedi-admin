@@ -42,13 +42,15 @@ const CreateTag = () => {
     }
   }, [title, setValue]);
 
-  const { mutate: createMutation, isLoading: isUpdating } = useMutation((data: any) => createTags(data), {
+  // Mutation v5
+  const { mutate: createMutation, isPending: isUpdating } = useMutation({
+    mutationFn: (payload: any) => createTags(payload),
     onSuccess: () => {
       message.success("Success!");
       router.push("/tag");
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message ?? "Failed!");
     },
   });
 

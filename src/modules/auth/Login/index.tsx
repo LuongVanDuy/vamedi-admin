@@ -39,7 +39,8 @@ const Login = () => {
     },
   });
 
-  const { mutate: loginMutation, isLoading } = useMutation((data: any) => login(data), {
+  const { mutate: loginMutation, isPending: isLoggingIn } = useMutation({
+    mutationFn: (data: any) => login(data),
     onSuccess(response: any) {
       message.success("Success!");
 
@@ -135,7 +136,7 @@ const Login = () => {
             className="btn-primary h-12 flex items-center justify-center !font-medium"
             onClick={handleSubmit(onSubmit)}
           >
-            {isLoading ? (
+            {isLoggingIn ? (
               <Spin indicator={<LoadingOutlined spin style={{ color: "white" }} />} />
             ) : (
               <>

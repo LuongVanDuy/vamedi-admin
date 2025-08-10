@@ -30,9 +30,13 @@ const Post = () => {
     contentLength: null,
   });
 
-  const { data, isLoading, refetch } = useQuery(["USER", formFilter], () => getBlogList(formFilter));
+  const { data, isPending, refetch } = useQuery({
+    queryKey: ["USER", formFilter],
+    queryFn: () => getBlogList(formFilter),
+  });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation(() => deleteBlog(item?.id), {
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+    mutationFn: (id: any) => deleteBlog(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
@@ -45,7 +49,7 @@ const Post = () => {
   });
 
   const onDelete = () => {
-    deleteMutation();
+    deleteMutation(item?.id);
   };
 
   const handleDelete = (record: any) => {
@@ -100,10 +104,7 @@ const Post = () => {
 
   return (
     <>
-      <div
-        style={{ minHeight: "calc(100vh - 24px)" }}
-        className="w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6"
-      >
+      <div className="min-h-[calc(100vh-24px)] w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6">
         <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0 flex justify-between">
           <h1 className="text-[#212529] font-medium text-[24px]">Post Management</h1>
 
@@ -122,7 +123,7 @@ const Post = () => {
 
           <Table
             columns={columns}
-            loading={isLoading}
+            loading={isPending}
             dataSource={data?.data?.list}
             rowKey="id"
             pagination={false}

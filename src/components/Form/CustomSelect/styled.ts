@@ -8,7 +8,7 @@ export const ComponentStyled = styled.div`
     width: 100% !important;
     border: 1px solid #dee2e6;
     border-radius: 8px;
-    background-color: #fbfbfb;
+    background-color: #fff;
     .ant-select-selector {
       border: unset !important;
       box-shadow: unset !important;

@@ -48,7 +48,8 @@ const Card = ({
   const router = useRouter();
   const isDone = status === "DONE" || status === "READY";
 
-  const { mutate: deleteMutation, isLoading } = useMutation((id: any) => deleteOrder(id, true), {
+  const { mutate: deleteMutation, isPending: isLoading } = useMutation({
+    mutationFn: (id: any) => deleteOrder(id, true),
     onSuccess: () => {
       message.success("Success!");
       refetch();
@@ -107,6 +108,8 @@ const Card = ({
 
           <div className="flex gap-2">
             <button
+              type="button"
+              aria-label="delete"
               disabled={isDone || isLoading}
               className={`rounded-lg h-[48px] w-[48px] flex items-center justify-center border-[1px] border-[#dc3545]  ${
                 isDone ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:opacity-80"
@@ -148,6 +151,8 @@ const Card = ({
 
             <div className="flex gap-2">
               <button
+                type="button"
+                aria-label="delete"
                 disabled={isDone || isLoading}
                 className={`rounded-lg h-[36px] w-[36px] flex items-center justify-center border-[1px] border-[#dc3545]  ${
                   isDone ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:opacity-80"

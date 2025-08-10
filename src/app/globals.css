@@ -137,3 +137,10 @@ body::-webkit-scrollbar {
   border-left: none;
   outline: none;
 }
+
+.ant-upload-list,
+.ant-upload,
+.ant-upload-list-item-container {
+  width: 100% !important;
+  height: 100% !important;
+}

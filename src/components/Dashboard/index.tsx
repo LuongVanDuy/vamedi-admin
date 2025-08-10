@@ -40,11 +40,15 @@ const Dashboard = () => {
     sortDesc: true,
   });
 
-  const { data } = useQuery(["ORDER", formFilter], () => getOrderList(formFilter), {
+  const { data } = useQuery({
+    queryKey: ["ORDER", formFilter],
+    queryFn: () => getOrderList(formFilter),
     refetchOnWindowFocus: true,
   });
 
-  const { data: responseData } = useQuery(["ORDER_COUNT"], () => getOrderStatus(), {
+  const { data: responseData } = useQuery({
+    queryKey: ["ORDER_COUNT"],
+    queryFn: () => getOrderStatus(),
     refetchOnWindowFocus: true,
   });
 
@@ -58,10 +62,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div
-      style={{ minHeight: "calc(100vh - 24px)" }}
-      className="w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12"
-    >
+    <div className="min-h-[calc(100vh-24px)] w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12">
       <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0">
         <h1 className="text-[#212529] font-medium text-[24px]">
           {profile?.data ? `Welcome, ${profile?.data?.name}` : "Welcome, Guest"}

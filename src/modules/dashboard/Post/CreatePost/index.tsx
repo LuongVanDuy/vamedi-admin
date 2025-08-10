@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 
 import { message, Spin } from "antd";
 import Label from "@/components/Form/CustomLabel";
-import { CustomInput } from "@/components/Form/CustomInput";
+import { CustomInput, CustomTextarea } from "@/components/Form/CustomInput";
 import { CustomSelect } from "@/components/Form/CustomSelect";
+import CustomUpload from "@/components/Form/CustomUpload";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import schema from "../schema";
@@ -19,6 +20,7 @@ import InputError from "@/components/Form/InputError";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createBlog } from "@/core/api/blog.service";
 import { getTagsList } from "@/core/api/tag.service";
+import { slugify } from "@/core/helper/utility";
 
 const CreatePost = () => {
   const router = useRouter();
@@ -39,28 +41,28 @@ const CreatePost = () => {
     mode: "onChange",
   });
 
-  const { data } = useQuery(["TAG", formFilter], () => getTagsList(formFilter), { refetchOnWindowFocus: true });
+  const { data } = useQuery({
+    queryKey: ["TAG", formFilter],
+    queryFn: () => getTagsList(formFilter),
+    refetchOnWindowFocus: true,
+  });
 
   const title = watch("title");
 
   useEffect(() => {
     if (title) {
-      const generatedSlug = title
-        .toLowerCase()
-        .trim()
-        .replace(/[\s]+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
-      setValue("slug", generatedSlug);
+      setValue("slug", slugify(title));
     }
   }, [title, setValue]);
 
-  const { mutate: createMutation, isLoading: isUpdating } = useMutation((data: any) => createBlog(data), {
+  const { mutate: createMutation, isPending: isUpdating } = useMutation({
+    mutationFn: (payload: any) => createBlog(payload),
     onSuccess: () => {
       message.success("Success!");
       router.push("/post");
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message);
     },
   });
 
@@ -95,117 +97,113 @@ const CreatePost = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6">
-          <div>
-            <Controller
-              name="title"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="col-span-1 md:col-span-2">
-                  <Label label="Title" required />
-                  <CustomInput
-                    className={`suffix-icon h-11 !rounded`}
-                    placeholder="Enter title post"
-                    onChange={onChange}
-                    value={value}
-                  />
-                  <InputError error={errors.title?.message} />
-                </div>
-              )}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="md:col-span-3 flex flex-col gap-6">
+            <div>
+              <Controller
+                name="title"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <div>
+                    <Label label="Title" required />
+                    <CustomInput
+                      className={`suffix-icon h-11 !rounded`}
+                      placeholder="Enter title post"
+                      onChange={onChange}
+                      value={value}
+                    />
+                    <InputError error={errors.title?.message} />
+                  </div>
+                )}
+              />
+            </div>
+
+            <div>
+              <Controller
+                name="slug"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <div>
+                    <Label label="Slug" required />
+                    <CustomInput
+                      className={`suffix-icon h-11 !rounded`}
+                      placeholder="Enter slug post"
+                      onChange={onChange}
+                      value={value}
+                    />
+                    <InputError error={errors.slug?.message} />
+                  </div>
+                )}
+              />
+            </div>
+
+            <div>
+              <Controller
+                name="shortDesc"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <div>
+                    <Label label="Short description" required />
+                    <CustomTextarea
+                      rows={4}
+                      placeholder="Enter short description"
+                      onChange={(e) => onChange(e.target.value)}
+                      value={value}
+                    />
+                    <InputError error={errors.shortDesc?.message} />
+                  </div>
+                )}
+              />
+            </div>
+
+            <div>
+              <Label label="Content" required />
+              <ReactQuill
+                value={getValues("content")}
+                onChange={handleChangeDescription}
+                modules={{ toolbar: true }}
+                placeholder="Enter blog content"
+                className="bg-white"
+              />
+              <InputError error={errors.content?.message} />
+            </div>
           </div>
 
-          <div>
-            <Controller
-              name="slug"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="col-span-1 md:col-span-2">
-                  <Label label="Slug" required />
-                  <CustomInput
-                    className={`suffix-icon h-11 !rounded`}
-                    placeholder="Enter slug post"
-                    onChange={onChange}
-                    value={value}
-                  />
-                  <InputError error={errors.slug?.message} />
-                </div>
-              )}
-            />
-          </div>
+          <div className="md:col-span-1 flex flex-col gap-6">
+            <div>
+              <Label label="Thumbnail" />
+              <Controller
+                name="thumbnail"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomUpload value={value || null} onChange={onChange} style={{ height: 300 }} />
+                )}
+              />
+              <InputError error={errors.thumbnail?.message} />
+            </div>
 
-          <div>
-            <Controller
-              name="shortDesc"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="col-span-1 md:col-span-2">
-                  <Label label="Short description" required />
-                  <CustomInput
-                    className={`suffix-icon h-11 !rounded`}
-                    placeholder="Enter short description"
-                    onChange={onChange}
-                    value={value}
-                  />
-                  <InputError error={errors.shortDesc?.message} />
-                </div>
-              )}
-            />
-          </div>
-
-          <div>
-            <Controller
-              name="thumbnail"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="col-span-1 md:col-span-2">
-                  <Label label="Thumbnail" />
-                  <CustomInput
-                    className={`suffix-icon h-11 !rounded`}
-                    placeholder="Enter thumbnail post"
-                    onChange={onChange}
-                    value={value ?? ""}
-                  />
-                  <InputError error={errors.thumbnail?.message} />
-                </div>
-              )}
-            />
-          </div>
-
-          <div>
-            <Controller
-              name="tags"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="col-span-1 md:col-span-2">
-                  <Label label="Tag" />
-                  <CustomSelect
-                    placeholder="Select post tag"
-                    className={`suffix-icon h-11 !rounded `}
-                    onChange={onChange}
-                    value={value}
-                    options={data?.data?.list?.map((item: any) => ({
-                      value: item.id,
-                      label: item.name,
-                    }))}
-                  />
-                  <InputError error={errors.tags?.message} />
-                </div>
-              )}
-            />
-          </div>
-
-          <div>
-            <Label label="Content" required />
-
-            <ReactQuill
-              value={getValues("content")}
-              onChange={handleChangeDescription}
-              modules={{ toolbar: true }}
-              placeholder="Enter blog content"
-              className="bg-white "
-            />
-            <InputError error={errors.content?.message} />
+            <div>
+              <Controller
+                name="tags"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <div>
+                    <Label label="Tag" />
+                    <CustomSelect
+                      placeholder="Select post tag"
+                      className={`suffix-icon !h-11 !rounded `}
+                      onChange={onChange}
+                      value={value}
+                      options={data?.data?.list?.map((item: any) => ({
+                        value: item.id,
+                        label: item.name,
+                      }))}
+                    />
+                    <InputError error={errors.tags?.message} />
+                  </div>
+                )}
+              />
+            </div>
           </div>
         </div>
       </div>

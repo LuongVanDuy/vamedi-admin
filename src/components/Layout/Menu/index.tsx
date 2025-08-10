@@ -25,26 +25,6 @@ const Menu = ({ activePage, isOpen }: { activePage: any; isOpen: boolean }) => {
           {isOpen && <h1>Home</h1>}
         </Link>
 
-        {/* User */}
-        <Link
-          href={"/user"}
-          className={`${
-            activePage === "/user" ? "text-primary bg-[#FFFFFF1A]" : "text-[#CED4DA] bg-none hover:text-primary"
-          } flex p-3 gap-3 rounded-xl`}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M19 21V19C19 17.9391 18.5786 16.9217 17.8284 16.1716C17.0783 15.4214 16.0609 15 15 15H9C7.93913 15 6.92172 15.4214 6.17157 16.1716C5.42143 16.9217 5 17.9391 5 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
-              stroke={activePage === "/user" ? "#FDC101" : "#CED4DA"}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-
-          {isOpen && <h1>User Management</h1>}
-        </Link>
-
         {/* Post */}
         <Link
           href={"/post"}
@@ -77,25 +57,6 @@ const Menu = ({ activePage, isOpen }: { activePage: any; isOpen: boolean }) => {
           {isOpen && <h1>Post Management</h1>}
         </Link>
 
-        {/* Order */}
-        <Link
-          href={"/order"}
-          className={`${
-            activePage === "/order" ? "text-primary bg-[#FFFFFF1A]" : "text-[#CED4DA] bg-none hover:text-primary"
-          } flex p-3 gap-3 rounded-xl`}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M2.05078 2.05078H4.05078L6.71078 14.4708C6.80836 14.9256 7.06145 15.3323 7.42649 15.6206C7.79153 15.909 8.24569 16.0611 8.71078 16.0508H18.4908C18.946 16.05 19.3873 15.8941 19.7418 15.6086C20.0964 15.3232 20.3429 14.9253 20.4408 14.4808L22.0908 7.05078H5.12078M9.00073 21.001C9.00073 21.5533 8.55302 22.001 8.00073 22.001C7.44845 22.001 7.00073 21.5533 7.00073 21.001C7.00073 20.4487 7.44845 20.001 8.00073 20.001C8.55302 20.001 9.00073 20.4487 9.00073 21.001ZM20.0007 21.001C20.0007 21.5533 19.553 22.001 19.0007 22.001C18.4484 22.001 18.0007 21.5533 18.0007 21.001C18.0007 20.4487 18.4484 20.001 19.0007 20.001C19.553 20.001 20.0007 20.4487 20.0007 21.001Z"
-              stroke={activePage === "/order" ? "#FDC101" : "#CED4DA"}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          {isOpen && <h1>Order Management</h1>}
-        </Link>
-
         {/* Tag */}
         <Link
           href={"/tag"}
@@ -120,6 +81,45 @@ const Menu = ({ activePage, isOpen }: { activePage: any; isOpen: boolean }) => {
             />
           </svg>
           {isOpen && <h1>Tag Management</h1>}
+        </Link>
+
+        {/* Order */}
+        <Link
+          href={"/order"}
+          className={`${
+            activePage === "/order" ? "text-primary bg-[#FFFFFF1A]" : "text-[#CED4DA] bg-none hover:text-primary"
+          } flex p-3 gap-3 rounded-xl`}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M2.05078 2.05078H4.05078L6.71078 14.4708C6.80836 14.9256 7.06145 15.3323 7.42649 15.6206C7.79153 15.909 8.24569 16.0611 8.71078 16.0508H18.4908C18.946 16.05 19.3873 15.8941 19.7418 15.6086C20.0964 15.3232 20.3429 14.9253 20.4408 14.4808L22.0908 7.05078H5.12078M9.00073 21.001C9.00073 21.5533 8.55302 22.001 8.00073 22.001C7.44845 22.001 7.00073 21.5533 7.00073 21.001C7.00073 20.4487 7.44845 20.001 8.00073 20.001C8.55302 20.001 9.00073 20.4487 9.00073 21.001ZM20.0007 21.001C20.0007 21.5533 19.553 22.001 19.0007 22.001C18.4484 22.001 18.0007 21.5533 18.0007 21.001C18.0007 20.4487 18.4484 20.001 19.0007 20.001C19.553 20.001 20.0007 20.4487 20.0007 21.001Z"
+              stroke={activePage === "/order" ? "#FDC101" : "#CED4DA"}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {isOpen && <h1>Order Management</h1>}
+        </Link>
+
+        {/* User */}
+        <Link
+          href={"/user"}
+          className={`${
+            activePage === "/user" ? "text-primary bg-[#FFFFFF1A]" : "text-[#CED4DA] bg-none hover:text-primary"
+          } flex p-3 gap-3 rounded-xl`}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19 21V19C19 17.9391 18.5786 16.9217 17.8284 16.1716C17.0783 15.4214 16.0609 15 15 15H9C7.93913 15 6.92172 15.4214 6.17157 16.1716C5.42143 16.9217 5 17.9391 5 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+              stroke={activePage === "/user" ? "#FDC101" : "#CED4DA"}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          {isOpen && <h1>User Management</h1>}
         </Link>
       </div>
     </div>

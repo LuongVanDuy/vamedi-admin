@@ -10,7 +10,7 @@ import DeleteModal from "@/components/Form/CustomModal/DeleteModal";
 import editIcon from "@/assets/editBlue.svg";
 import deleteIcon from "@/assets/deleteRed.svg";
 import search from "@/assets/Search.svg";
-
+import addIcon from "@/assets/plus.svg";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserList, deleteUser, enableUser, disableUser } from "@/core/api/user.service";
 
@@ -27,9 +27,13 @@ const User = () => {
     sortDesc: null,
   });
 
-  const { data, isLoading, refetch } = useQuery(["USER", formFilter], () => getUserList(formFilter));
+  const { data, isPending, refetch } = useQuery({
+    queryKey: ["USER", formFilter],
+    queryFn: () => getUserList(formFilter),
+  });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation(() => deleteUser(item?.id), {
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+    mutationFn: (id: any) => deleteUser(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
@@ -42,7 +46,7 @@ const User = () => {
   });
 
   const onDelete = () => {
-    deleteMutation();
+    deleteMutation(item?.id);
   };
 
   const handleDelete = (record: any) => {
@@ -50,7 +54,8 @@ const User = () => {
     setOpen(true);
   };
 
-  const { mutate: enableMutation } = useMutation((id: any) => enableUser(id), {
+  const { mutate: enableMutation } = useMutation({
+    mutationFn: (id: any) => enableUser(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
@@ -61,7 +66,8 @@ const User = () => {
     },
   });
 
-  const { mutate: disableMutation } = useMutation((id: any) => disableUser(id), {
+  const { mutate: disableMutation } = useMutation({
+    mutationFn: (id: any) => disableUser(id),
     onSuccess: () => {
       message.success("Success!");
       setItem(null);
@@ -99,13 +105,6 @@ const User = () => {
       key: "email",
       align: "center",
     },
-    // {
-    //   title: "Phone Number",
-    //   dataIndex: "phone",
-    //   key: "phone",
-    //   align: "center",
-    //   render: (value: any) => value ? value : "---"
-    // },
     {
       title: "Status",
       dataIndex: "status",
@@ -154,12 +153,12 @@ const User = () => {
 
   return (
     <>
-      <div
-        style={{ minHeight: "calc(100vh - 24px)" }}
-        className="w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6"
-      >
-        <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0">
+      <div className=" min-h-[calc(100vh-24px)] w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12 mb-6">
+        <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0 flex justify-between items-center">
           <h1 className="text-[#212529] font-medium text-[24px]">User Management</h1>
+          <div onClick={() => router.push("/user/create-user")} className="btn-primary gap-2">
+            <Image src={addIcon} alt="icon" /> New User
+          </div>
         </div>
 
         <div className="card">
@@ -172,7 +171,7 @@ const User = () => {
 
           <Table
             columns={columns}
-            loading={isLoading}
+            loading={isPending}
             dataSource={data?.data?.list}
             rowKey="id"
             pagination={false}

@@ -33,7 +33,9 @@ const Order = () => {
 
   const currentTab = tabs.find((tab) => tab.key === formFilter.status) || { label: "All order" };
 
-  const { data, isLoading, refetch } = useQuery(["ORDER", formFilter], () => getOrderList(formFilter), {
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["ORDER", formFilter],
+    queryFn: () => getOrderList(formFilter),
     refetchOnWindowFocus: true,
   });
 
@@ -46,10 +48,7 @@ const Order = () => {
 
   return (
     <>
-      <div
-        style={{ minHeight: "calc(100vh - 24px)" }}
-        className="w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12"
-      >
+      <div className="min-h-[calc(100vh-24px)] w-full px-4 md:px-6 bg-[#fbfbfb] flex flex-col gap-9 md:gap-12">
         <div className="pt-4 md:pt-0 mb-[-20px] md:mb-0">
           <h1 className="text-[#212529] font-medium text-[24px]">All orders</h1>
         </div>

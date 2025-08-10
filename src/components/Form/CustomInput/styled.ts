@@ -7,10 +7,6 @@ export const InputStyled = styled.div`
     margin: 0;
   }
 
-  // input {
-  //   margin-left: 5px;
-  // }
-
   .input-center input {
     text-align: center;
   }

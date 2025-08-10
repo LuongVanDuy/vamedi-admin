@@ -32,7 +32,11 @@ const DetailOrder = ({ oid }: { oid: any }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const { data, refetch, isLoading } = useQuery(["ORDER"], () => getOrderDetail(oid));
+  const { data, refetch, isLoading } = useQuery({
+    queryKey: ["ORDER", oid],
+    queryFn: () => getOrderDetail(oid),
+    enabled: !!oid,
+  });
   const orderData = data?.data;
 
   useEffect(() => {
@@ -41,7 +45,11 @@ const DetailOrder = ({ oid }: { oid: any }) => {
     }
   }, [orderData]);
 
-  const { data: feedback, isLoading: isLoadingFeedback } = useQuery(["FEEDBACK"], () => getFeedback(oid));
+  const { data: feedback, isLoading: isLoadingFeedback } = useQuery({
+    queryKey: ["FEEDBACK", oid],
+    queryFn: () => getFeedback(oid),
+    enabled: !!oid,
+  });
 
   const validateImageUrl = (url: string) => {
     const isValidUrl = /^https?:\/\/.+\..+/i.test(url);
@@ -54,14 +62,15 @@ const DetailOrder = ({ oid }: { oid: any }) => {
     }
   };
 
-  const { mutate: updateMutation, isLoading: isUpdating } = useMutation((data: any) => updateOrder(data, oid), {
+  const { mutate: updateMutation, isPending: isUpdating } = useMutation({
+    mutationFn: (data: any) => updateOrder(data, oid),
     onSuccess: () => {
       refetch();
       router.push("/order");
     },
     onError: (err: any) => {
-      message.error(err.response?.data?.message);
-      console.error(err.response?.data?.message);
+      message.error(err?.response?.data?.message);
+      console.error(err?.response?.data?.message);
     },
   });
 
@@ -191,7 +200,7 @@ const DetailOrder = ({ oid }: { oid: any }) => {
               {error && <p className="text-red-500 text-sm">{error}</p>}
             </div>
 
-            <div className="flex flex-col gap-4 my-6">
+            {/* <div className="flex flex-col gap-4 my-6">
               {isLoadingFeedback ? (
                 <Skeleton active style={{ height: "400px" }} />
               ) : (
@@ -208,7 +217,7 @@ const DetailOrder = ({ oid }: { oid: any }) => {
                   </div>
                 ))
               )}
-            </div>
+            </div> */}
           </>
         )}
       </div>

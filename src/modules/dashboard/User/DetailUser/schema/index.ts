@@ -7,7 +7,7 @@ const schema = Yup.object().shape({
   phone: Yup.string()
     .matches(/^[0-9]+$/, "Phone number must be only digits")
     .required("Phone is required"),
-  avatar: Yup.string().url("Invalid URL format"),
+  avatar: Yup.string(),
   companyName: Yup.string(),
   companyURL: Yup.string().url("Invalid URL format"),
 });

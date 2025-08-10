@@ -7,8 +7,8 @@ import { clearToken, setRefreshToken, setToken } from "@/core/helper/storage";
 import { destroyCookie } from "nookies";
 import Menu from "./Menu";
 
-import logo from "@/assets/Logo2.svg";
-import smallLogo from "@/assets/small-logo.svg";
+import logo from "@/assets/dashboard-logo.svg";
+import smallLogo from "@/assets/dashboard-logo-sm.svg";
 import avatar from "@/assets/Avatar.svg";
 import logoutIcon from "@/assets/logout.svg";
 
