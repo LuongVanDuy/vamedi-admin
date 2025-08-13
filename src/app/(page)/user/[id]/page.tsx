@@ -73,7 +73,7 @@ const DetailUser = () => {
     }
   }, [detail, reset]);
 
-  const { mutate: updateMutation, isLoading: isUpdating } = useMutation({
+  const { mutate: updateMutation, isPending: isUpdating } = useMutation({
     mutationFn: (payload: any) => updateUser(id, payload),
     onSuccess: () => {
       message.success("Success!");

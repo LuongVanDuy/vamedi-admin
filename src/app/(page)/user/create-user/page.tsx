@@ -46,7 +46,7 @@ const Page = () => {
     },
   });
 
-  const { mutate: createMutation, isLoading: isCreating } = useMutation({
+  const { mutate: createMutation, isPending: isCreating } = useMutation({
     mutationFn: (payload: any) => createUser(payload),
     onSuccess: () => {
       message.success("Success!");

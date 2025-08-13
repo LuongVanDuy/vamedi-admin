@@ -67,7 +67,7 @@ const CreatePost = () => {
     }
   }, [title, setValue]);
 
-  const { mutate: createMutation, isLoading: isUpdating } = useMutation({
+  const { mutate: createMutation, isPending: isUpdating } = useMutation({
     mutationFn: (payload: any) => createBlog(payload),
     onSuccess: () => {
       message.success("Success!");

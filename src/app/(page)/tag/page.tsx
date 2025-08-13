@@ -30,7 +30,7 @@ const Tag = () => {
     queryFn: () => getTagsList(formFilter),
   });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation({
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
     mutationFn: (id: any) => deleteTags(id),
     onSuccess: () => {
       message.success("Success!");

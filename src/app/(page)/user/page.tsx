@@ -32,7 +32,7 @@ const User = () => {
     queryFn: () => getUserList(formFilter),
   });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation({
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
     mutationFn: (id: any) => deleteUser(id),
     onSuccess: () => {
       message.success("Success!");

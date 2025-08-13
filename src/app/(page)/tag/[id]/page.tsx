@@ -68,7 +68,7 @@ const Detail = () => {
     }
   }, [title, setValue]);
 
-  const { mutate: updateMutation, isLoading: isUpdating } = useMutation({
+  const { mutate: updateMutation, isPending: isUpdating } = useMutation({
     mutationFn: (payload: any) => updateTags(id, payload),
     onSuccess: () => {
       message.success("Success!");

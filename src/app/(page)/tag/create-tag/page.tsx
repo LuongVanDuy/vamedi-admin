@@ -47,7 +47,7 @@ const CreateTag = () => {
   }, [title, setValue]);
 
   // Mutation v5
-  const { mutate: createMutation, isLoading: isUpdating } = useMutation({
+  const { mutate: createMutation, isPending: isUpdating } = useMutation({
     mutationFn: (payload: any) => createTags(payload),
     onSuccess: () => {
       message.success("Success!");

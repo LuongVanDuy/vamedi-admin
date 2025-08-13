@@ -35,7 +35,7 @@ const Post = () => {
     queryFn: () => getBlogList(formFilter),
   });
 
-  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation({
+  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
     mutationFn: (id: any) => deleteBlog(id),
     onSuccess: () => {
       message.success("Success!");

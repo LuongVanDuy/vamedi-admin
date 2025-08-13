@@ -68,7 +68,7 @@ const Card = ({
   const router = useRouter();
   const isDone = status === "DONE" || status === "READY";
 
-  const { mutate: deleteMutation, isLoading: isLoading } = useMutation({
+  const { mutate: deleteMutation, isPending: isLoading } = useMutation({
     mutationFn: (id: any) => deleteOrder(id, true),
     onSuccess: () => {
       message.success("Success!");
@@ -253,6 +253,7 @@ const Order = () => {
                 quantity={item.quantity}
                 id={item.id}
                 date={item.createdTime}
+                mail={item.user.email}
                 refetch={refetch}
               />
             ))}

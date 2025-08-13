@@ -63,7 +63,7 @@ const DetailOrder = () => {
     }
   };
 
-  const { mutate: updateMutation, isLoading: isUpdating } = useMutation({
+  const { mutate: updateMutation, isPending: isUpdating } = useMutation({
     mutationFn: (data: any) => updateOrder(data, oid),
     onSuccess: () => {
       refetch();
