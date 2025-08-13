@@ -30,12 +30,12 @@ const Post = () => {
     contentLength: null,
   });
 
-  const { data, isPending, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["USER", formFilter],
     queryFn: () => getBlogList(formFilter),
   });
 
-  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation({
     mutationFn: (id: any) => deleteBlog(id),
     onSuccess: () => {
       message.success("Success!");
@@ -123,7 +123,7 @@ const Post = () => {
 
           <Table
             columns={columns}
-            loading={isPending}
+            loading={isLoading}
             dataSource={data?.data?.list}
             rowKey="id"
             pagination={false}

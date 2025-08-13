@@ -25,12 +25,12 @@ const Tag = () => {
     // sortDesc: true,
   });
 
-  const { data, isPending, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["USER", formFilter],
     queryFn: () => getTagsList(formFilter),
   });
 
-  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation({
     mutationFn: (id: any) => deleteTags(id),
     onSuccess: () => {
       message.success("Success!");
@@ -97,7 +97,7 @@ const Tag = () => {
         <div className="card">
           <Table
             columns={columns}
-            loading={isPending}
+            loading={isLoading}
             dataSource={data?.data?.list}
             rowKey="id"
             pagination={false}

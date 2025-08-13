@@ -27,12 +27,12 @@ const User = () => {
     sortDesc: null,
   });
 
-  const { data, isPending, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["USER", formFilter],
     queryFn: () => getUserList(formFilter),
   });
 
-  const { mutate: deleteMutation, isPending: isDeleting } = useMutation({
+  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation({
     mutationFn: (id: any) => deleteUser(id),
     onSuccess: () => {
       message.success("Success!");
@@ -171,7 +171,7 @@ const User = () => {
 
           <Table
             columns={columns}
-            loading={isPending}
+            loading={isLoading}
             dataSource={data?.data?.list}
             rowKey="id"
             pagination={false}

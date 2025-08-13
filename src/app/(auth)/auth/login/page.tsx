@@ -51,7 +51,7 @@ const Login = () => {
     },
   });
 
-  const { mutate: loginMutation, isPending: isLoggingIn } = useMutation({
+  const { mutate: loginMutation, isLoading: isLoggingIn } = useMutation({
     mutationFn: (data: any) => login(data),
     onSuccess(response: any) {
       message.success("Success!");

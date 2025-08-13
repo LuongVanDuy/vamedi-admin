@@ -55,7 +55,7 @@ const Dashboard = () => {
   const countData: any = responseData || [];
 
   const statusData = [
-    { status: "AWAITING", label: "Awaiting payment", icon: card },
+    { status: "AWAITING", label: "Awaiting", icon: card },
     { status: "READY", label: "Getting ready", icon: flag },
     { status: "DONE", label: "Order delivered", icon: done },
     { status: "REWORK", label: "Rework requested", icon: rework },

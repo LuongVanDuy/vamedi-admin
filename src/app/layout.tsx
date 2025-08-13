@@ -5,7 +5,8 @@ import "./globals.css";
 const inter = Be_Vietnam_Pro({ subsets: ["vietnamese"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "VA Admin",
+  title: "Fixelsphoto – The Best Real Estate Photo Editing Service",
+  icons: [{ rel: "icon", url: "/favicon.png", type: "image/png" }],
 };
 
 export default function RootLayout({

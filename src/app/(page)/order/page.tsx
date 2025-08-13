@@ -17,7 +17,7 @@ import { message } from "antd";
 
 const tabs = [
   { key: "", label: "All order" },
-  { key: "awaiting", label: "Awaiting payment" },
+  { key: "awaiting", label: "Awaiting" },
   { key: "ready", label: "Getting ready" },
   { key: "done", label: "Order delivered" },
   { key: "rework", label: "Rework requested" },
@@ -37,7 +37,7 @@ const color: any = {
 
 const title: any = {
   DONE: "completed",
-  AWAITING: "awaiting payment",
+  AWAITING: "awaiting",
   READY: "ready",
   REWORK: "rework",
 };
@@ -52,6 +52,7 @@ const Card = ({
   id,
   date,
   refetch,
+  mail,
 }: {
   name: string;
   categories: string;
@@ -62,11 +63,12 @@ const Card = ({
   id: string;
   date: any;
   refetch: any;
+  mail?: string;
 }) => {
   const router = useRouter();
   const isDone = status === "DONE" || status === "READY";
 
-  const { mutate: deleteMutation, isPending: isLoading } = useMutation({
+  const { mutate: deleteMutation, isLoading: isLoading } = useMutation({
     mutationFn: (id: any) => deleteOrder(id, true),
     onSuccess: () => {
       message.success("Success!");
@@ -91,10 +93,11 @@ const Card = ({
           <div className="flex gap-12">
             <h1 className="text-[#212529] font-medium">{name}</h1>
             <h1 className="text-[#343a40]">{categories}</h1>
+            <h1 className="text-blue-500">{mail}</h1>
           </div>
           <div className="flex items-center gap-1">
             <h1 className="uppercase text-[#6C757D] text-[12px]">Status</h1>
-            <CustomTag title={title[status] || "awaiting payment"} color={color[status] || "warning"} />
+            <CustomTag title={title[status] || "awaiting"} color={color[status] || "warning"} />
           </div>
         </div>
 
@@ -143,7 +146,7 @@ const Card = ({
       <div className="rounded-lg bg-[#fbfbfb] block md:hidden mb-6">
         <div className="flex justify-between py-3 px-4 border-b-[1px] border-[#f4f4f4] items-center">
           <h1 className="text-[#212529] font-medium">{name}</h1>
-          <CustomTag title={title[status] || "awaiting payment"} color={color[status] || "warning"} />
+          <CustomTag title={title[status] || "awaiting"} color={color[status] || "warning"} />
         </div>
         <div className="p-6 gap-6 flex flex-col">
           <div className="flex flex-col gap-2">

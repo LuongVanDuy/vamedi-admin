@@ -22,7 +22,7 @@ const color: any = {
 
 const title: any = {
   DONE: "completed",
-  AWAITING: "awaiting payment",
+  AWAITING: "awaiting",
   READY: "ready",
   REWORK: "rework",
 };
@@ -63,7 +63,7 @@ const DetailOrder = () => {
     }
   };
 
-  const { mutate: updateMutation, isPending: isUpdating } = useMutation({
+  const { mutate: updateMutation, isLoading: isUpdating } = useMutation({
     mutationFn: (data: any) => updateOrder(data, oid),
     onSuccess: () => {
       refetch();
@@ -86,13 +86,15 @@ const DetailOrder = () => {
     } else {
       setError(null);
     }
-    const submitData = {
-      ...orderData,
+    const { user, ...submitData } = orderData;
+
+    const finalData = {
+      ...submitData,
       status: "DONE",
       photoCompleted: imageUrl,
     };
 
-    updateMutation(submitData);
+    updateMutation(finalData);
   };
 
   return (
@@ -110,17 +112,8 @@ const DetailOrder = () => {
                   Cancel
                 </div>
 
-                <div
-                  className={`${
-                    orderData?.status === "DONE" || orderData?.status === "AWAITING"
-                      ? "opacity-50 cursor-not-allowed disabled:"
-                      : ""
-                  }`}
-                >
-                  <div
-                    onClick={orderData?.status === "DONE" || orderData?.status === "AWAITING" ? () => {} : handleUpdate}
-                    className="btn-primary"
-                  >
+                <div>
+                  <div onClick={handleUpdate} className="btn-primary">
                     {isUpdating ? <Spin indicator={<LoadingOutlined spin />} size="default" /> : "Completed"}
                   </div>
                 </div>
@@ -132,6 +125,12 @@ const DetailOrder = () => {
                 <div>
                   <h1 className="uppercase text-[#6C757D] text-[12px]">Order Id</h1>
                   <h2 className="text-[#343A40]">{orderData?.id}</h2>
+                </div>
+                <div>
+                  <h1 className="uppercase text-[#6C757D] text-[12px]">Customer</h1>
+                  <h2 className="text-[#343A40]">Name: {orderData?.user?.name}</h2>
+                  <h2 className="text-[#343A40]">Email: {orderData?.user?.email}</h2>
+                  <h2 className="text-[#343A40]">Phone: {orderData?.user?.phone}</h2>
                 </div>
                 <div>
                   <h1 className="uppercase text-[#6C757D] text-[12px]">Customer uploaded Image</h1>
@@ -201,7 +200,7 @@ const DetailOrder = () => {
               {error && <p className="text-red-500 text-sm">{error}</p>}
             </div>
 
-            {/* <div className="flex flex-col gap-4 my-6">
+            <div className="flex flex-col gap-4 my-6">
               {isLoadingFeedback ? (
                 <Skeleton active style={{ height: "400px" }} />
               ) : (
@@ -218,7 +217,7 @@ const DetailOrder = () => {
                   </div>
                 ))
               )}
-            </div> */}
+            </div>
           </>
         )}
       </div>
